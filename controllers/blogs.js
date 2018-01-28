@@ -87,10 +87,6 @@ blogsRouter.put('/:id', async (request, response) => {
       return response.status(400).send(errors.join('\n'))
     }
     const id = request.params.id
-    const blog = await Blog.findById(id)
-    if (blog.user && decodedToken.id !== blog.user.toString()) {
-      return response.status(401).send('You can only update blogs created by you.')
-    }
     await Blog.findByIdAndUpdate(id, newBlog)
     const updatedBlog = await Blog.findById(id)
     response.status(201).json(updatedBlog)
