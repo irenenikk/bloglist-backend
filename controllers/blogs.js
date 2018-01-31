@@ -22,7 +22,7 @@ const saveBlogToUser = async (blog, user) => {
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find().populate('user')
-  response.json(formatBlog(blogs))
+  response.json(blogs.map(b => formatBlog(b)))
 })
 
 blogsRouter.post('/', async (request, response) => {
