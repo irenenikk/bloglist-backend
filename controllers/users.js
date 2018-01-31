@@ -12,8 +12,8 @@ const validateUser = async (user) => {
   if (!user.password || user.password.length < 3) {
     errors.push('Password must be at least 3 characters long')
   }
-  if (!user.name) {
-    errors.push('Please enter your name')
+  if (!user.name || user.name.length < 3) {
+    errors.push('Name must be at least 3 characters long')
   }
   const users = await User.find()
   const usernames = users.map(u => u.username)
