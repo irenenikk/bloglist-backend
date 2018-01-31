@@ -3,7 +3,6 @@ const formatUser = (user) => {
     username: user.username,
     name: user.name,
     adult: user.adult,
-    passwordHash: user.passwordHash,
     blogs: user.blogs
   }
 }

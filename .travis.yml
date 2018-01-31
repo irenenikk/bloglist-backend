@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- '7'
+- '8'
+cache:
+  directories:
+  - node_modules
+deploy:
+  provider: heroku
+  api_key:
+    secure: iUVNDhUNk5AEIgGC2wlMFsdm8AVPnvZeRckBsAPyimwDI4Z1Gvc53vUzvqkPKC+bJCpXJPGTQskfdK3bsgDI85dU8dno7tXZW0DYwq9y0f7ahlOwhxMs7KDvRoJcUNWkEkhCm6pGoAPXTqe/QdIf+RAxEHlEA5jgCMw+EVDO45u8wWaScRwZvbF2LOZEW0xNQ8JVJVXlNDeBhbjq6pL3C6o0/jGDLdFdCGfjsZ6Zj0N+Al2n5gg9jFb0R7XKKIuOj2F8iyu+VkxqD3kgqxYgxyjV2kTjj/wbSEYxx28BvEQtrPDYfS0/YG6X7DbBdiDEgf8JKW+SlIkiSP3IeeAPqMaNsc8E+5yTMP1ZXaAl+hZ9wscHOX8eFQGuziKgg2U8ZlNVU6fnDFslxztcjqVf/yFj/BreAsImy+CkiqLbf9sPvSL17r8VHeFlptL2uahlpGU4d4rH4q/CAQlEGMv/gYXlqZ7LGBbjq38lUUHzfShFHA840IRoFK76Q58WV8bvvetKosUsJjqVE8crotrOEJR2t6FwhodeTzHE0SYN92UyGs4pLaDhc1yNAdUTikWAfb02fuYOIGIYaEWMvW9/Taf48dzlzyzkxCMPNO5nD1be0Qh79MSwyHFlU+G1FrolUGbPhYHRdCcaT5Iz4/tXV3Y8blEHWdkb0Q3yx2ABYHQ=
+  app: bloglist-backend
+  on:
+    repo: irenenikk/bloglist-backend
+script:

@@ -1,3 +1,5 @@
+const formatUser = require('../utils/user-format')
+
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
@@ -30,7 +32,7 @@ const createPasswordHash = async (password) => {
 usersRouter.get('/', async (request, response) => {
   try {
     const users = await User.find().populate('blogs')
-    response.json(users)
+    response.json(users.map(u => formatUser(u)))
   } catch (e) {
     response.status(500).send('Could not get users')
   }
