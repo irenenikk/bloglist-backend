@@ -12,3 +12,4 @@ deploy:
   on:
     repo: irenenikk/bloglist-backend
 script:
+  - "npm run lint"
