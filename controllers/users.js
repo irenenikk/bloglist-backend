@@ -38,7 +38,6 @@ usersRouter.get('/', async (request, response) => {
   }
 })
 
-
 usersRouter.post('/', async (request, response) => {
   const userInfo = request.body
   const errors = await validateUser(userInfo)

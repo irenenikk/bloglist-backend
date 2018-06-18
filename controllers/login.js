@@ -14,9 +14,7 @@ loginRouter.post('/', async (request, response) => {
 
   try {
     const user = await User.findOne({ username: body.username })
-    console.log('user ' + user)
     const passwordCorrect = await isPasswordCorrect(body.password, user)
-    console.log('correct ' + passwordCorrect)
     if (!(user && passwordCorrect)) {
       return response.status(401).send('Username or password is invalid')
     }
@@ -25,7 +23,6 @@ loginRouter.post('/', async (request, response) => {
       id: user._id
     }
     const token = jwt.sign(userForToken, process.env.SECRET)
-    console.log('token ' + token)
     response.status(200).send({ token, username: user.username, name: user.name })
   } catch (e) {
     response.status(500).send('Login failed')
