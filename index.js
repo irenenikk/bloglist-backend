@@ -27,6 +27,12 @@ mongoose.Promise = global.Promise
 const PORT = config.port
 const server = http.createServer(app)
 
+const io = require('socket.io')(server)
+
+io.on('connection', () => {
+  console.log('Socket is connected')
+})
+
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

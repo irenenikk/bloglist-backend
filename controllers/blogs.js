@@ -41,12 +41,12 @@ blogsRouter.post('/', async (request, response) => {
     }
     const user = await User.findById(decodedToken.id)
     const blogObj = await
-      new Blog({
-        ...blog,
-        likes: (blog.likes? blog.likes : 0),
-        user: user._id
-      })
-        .save()
+    new Blog({
+      ...blog,
+      likes: (blog.likes? blog.likes : 0),
+      user: user._id
+    })
+      .save()
     saveBlogToUser(blogObj, user)
     response.json(formatBlog(blogObj))
   } catch (e) {
