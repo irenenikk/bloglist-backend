@@ -1,5 +1,8 @@
 const blogsRouter = require('express').Router()
+const eventsRouter = require('./events')
+const socket = require('../utils/socket')
 const formatBlog = require('../utils/blog-format')
+const formatUser = require('../utils/user-format')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
@@ -48,6 +51,13 @@ blogsRouter.post('/', async (request, response) => {
     })
       .save()
     saveBlogToUser(blogObj, user)
+    const event = {
+      ...eventsRouter.createdBlogEventObject,
+      user: formatUser(user),
+      blog: formatBlog(blogObj)
+    }
+    await eventsRouter.createEvent(event, user._id, blog)
+    socket.emitEvent(event)
     response.json(formatBlog(blogObj))
   } catch (e) {
     response.status(400).send('Could not create blog')
@@ -86,9 +96,16 @@ blogsRouter.put('/:id', async (request, response) => {
     if (errors.length > 0) {
       return response.status(400).send(errors.join('\n'))
     }
+    const user = await User.findById(decodedToken.id)
     const id = request.params.id
     await Blog.findByIdAndUpdate(id, newBlog)
     const updatedBlog = await Blog.findById(id)
+    const event = {
+      ...eventsRouter.likedBlogEventObject,
+      user,
+    }
+    await eventsRouter.createEvent(event, user._id, updatedBlog)
+    socket.emitEvent(event)
     response.status(201).json(updatedBlog)
   } catch (e) {
     response.status(400).send('Could not update blog: ' + e)

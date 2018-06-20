@@ -5,6 +5,26 @@ const User = require('../models/user')
 const Blog = require('../models/blog')
 const jwt = require('jsonwebtoken')
 
+
+const CREATED_NEW_USER = 'CREATED_NEW_USER'
+const CREATED_NEW_BLOG = 'CREATED_NEW_BLOG'
+const LIKED_BLOG = 'LIKED_BLOG'
+
+eventsRouter.createdBlogEventObject = {
+    type: CREATED_NEW_BLOG,
+    description: 'created a new blog'
+}
+
+eventsRouter.newUserEventObject = {
+    type: CREATED_NEW_USER,
+    description: 'joined Blogster'
+}
+
+eventsRouter.likedBlogEventObject = {
+    type: LIKED_BLOG,
+    description: 'liked the blog'
+}
+
 const validateEvent = (event) => {
   let errors = []
   if (event.user === undefined) {
@@ -64,5 +84,26 @@ eventsRouter.post('/', async (request, response) => {
     response.status(400).send('Could not create event')
   }
 })
+
+eventsRouter.createEvent = async (event, user_id, target_blog) => {
+  try {
+    const user = await User.findById(user_id)
+
+    let blog
+    if (target_blog) {
+      blog = await Blog.findById(target_blog._id)
+    }
+    const eventObj = await
+    new Event({
+      ...event,
+      blog: blog ? blog._id : undefined,
+      user: user._id,
+      time: new Date()
+    })
+      .save()
+    return eventObj  
+  } catch (e) {
+  }
+}
 
 module.exports = eventsRouter

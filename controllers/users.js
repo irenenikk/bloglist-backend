@@ -3,6 +3,8 @@ const formatUser = require('../utils/user-format')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const eventRouter = require('./events')
+const socket = require('../utils/socket')
 
 const validateUser = async (user) => {
   const errors = []
@@ -48,6 +50,12 @@ usersRouter.post('/', async (request, response) => {
     const passwordHash = await createPasswordHash(userInfo.password)
     const user = new User({ ...userInfo, passwordHash })
     const savedUser = await user.save()
+    const event = {
+      ...eventRouter.newUserEventObject,
+      user,
+    }
+    await eventRouter.createEvent(event, user._id)
+    socket.emitEvent(event)
     response.json(savedUser)
   } catch (e) {
     response.status(400).send('Could not save user')
