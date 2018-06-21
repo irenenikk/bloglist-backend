@@ -11,18 +11,18 @@ const CREATED_NEW_BLOG = 'CREATED_NEW_BLOG'
 const LIKED_BLOG = 'LIKED_BLOG'
 
 eventsRouter.createdBlogEventObject = {
-    type: CREATED_NEW_BLOG,
-    description: 'created a new blog'
+  type: CREATED_NEW_BLOG,
+  description: 'created a new blog'
 }
 
 eventsRouter.newUserEventObject = {
-    type: CREATED_NEW_USER,
-    description: 'joined Blogster'
+  type: CREATED_NEW_USER,
+  description: 'joined Blogster'
 }
 
 eventsRouter.likedBlogEventObject = {
-    type: LIKED_BLOG,
-    description: 'liked the blog'
+  type: LIKED_BLOG,
+  description: 'liked the blog'
 }
 
 const validateEvent = (event) => {
@@ -101,8 +101,9 @@ eventsRouter.createEvent = async (event, user_id, target_blog) => {
       time: new Date()
     })
       .save()
-    return eventObj  
+    return eventObj
   } catch (e) {
+    console.log('Could not create event')
   }
 }
 
